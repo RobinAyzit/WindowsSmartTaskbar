@@ -64,18 +64,18 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 
 ---
 
+---
+
 ## 👨‍💻 Author
 
 **Created 2026 by © nRn World**
 
-📧 [bynrnworld@gmail.com](mailto:bynrnworld@gmail.com)
-
-☕ **Buy Me a Coffee**: [buymeacoffee.com/robinayzit](https://buymeacoffee.com/robinayzit)
+📧 bynrnworld@gmail.com
 
 ## 🙏 Support
 
 If you like this project, consider to:
 
 ⭐ **Star the project** on GitHub  
-☕ **Buy me a coffee**  
+☕ **Buy me a coffee** [buymeacoffee.com/robinayzit](https://buymeacoffee.com/robinayzit)  
 📢 **Share with your friends**
