@@ -1,49 +1,67 @@
-# WindowsSmartTaskbar
+# WindowsSmartTaskbar 🚀
 
-En smart taskbar-applikation för Windows som låter dig samla och starta dina favoritprogram från ett enda ställe.
+A modern, sleek, and high-performance Windows utility designed to streamline your workflow by organizing your favorite applications into custom categories. Access everything instantly via an interactive system tray menu.
 
-## Funktioner
+---
 
-- **Lägg till program**: Lägg till upp till 20 .exe-filer manuellt
-- **Programstart**: Dubbelklicka på ett program för att starta det
-- **Systemtray**: Kör i bakgrunden med en ikon i systemtray
-- **Spara inställningar**: Programlistan sparas automatiskt
-- **Modern UI**: Ren och användarvänlig gränssnitt
+## ✨ Key Features
 
-## Installation
+- **📂 Smart Categorization**: Organize your tools, games, and apps into logical groups.
+- **⚡ Quick-Launch Menu**: Left-click the tray icon to access a categorized mini-launcher instantly.
+- **🎯 Full Management**: Double-click to open the main dashboard for adding, editing, or removing programs.
+- **🌍 Multi-Language Support**: Fully localized in **English (Default)**, **Swedish**, and **Turkish**.
+- **🛠️ Zero-Config Persistence**: Your categories and program lists are automatically saved and restored.
+- **🔄 Windows Autostart**: Option to launch automatically when you start your PC.
+- **🎨 Modern Aesthetics**: A clean, professional UI with custom-drawn iconography and a sleek blue design.
 
-1. Se till att du har .NET 6.0 eller senare installerat
-2. Bygg projektet med `dotnet build`
-3. Kör `WindowsSmartTaskbar.exe`
+---
 
-## Användning
+## 🚀 Getting Started
 
-1. **Starta applikationen**: Den körs i bakgrunden och visas som en ikon i systemtray
-2. **Lägg till program**: 
-   - Högerklicka på tray-ikonen och välj "Visa program"
-   - Klicka på "Lägg till program"-knappen
-   - Välj .exe-filer du vill lägga till (max 20 st)
-3. **Starta program**: 
-   - Dubbelklicka på ett program i listan
-   - eller högerklicka på tray-ikonen och välj "Visa program"
-4. **Ta bort program**: Markera ett eller flera program och klicka på "Ta bort"
+### Prerequisites
 
-## Teknisk information
+- **Windows 10/11**
+- **.NET 8.0 Runtime** (or later)
 
-- **Framework**: .NET 6.0 Windows Forms
-- **Språk**: C#
-- **Konfigurationsfil**: `programs.json` (sparas i samma mapp som .exe)
-- **Max antal program**: 20
+### Installation
 
-## Filer
+1. **Download** the latest release or clone the repository.
+2. **Build** the project using Visual Studio or the terminal:
+   ```powershell
+   dotnet build
+   ```
+3. **Launch** the executable found in `bin/Debug/net8.0-windows/WindowsSmartTaskbar.exe`.
 
-- `Program.cs` - Startpunkt för applikationen
-- `MainForm.cs` - Huvudformuläret med UI och logik
-- `ProgramItem.cs` - Klass för att representera ett program
-- `WindowsSmartTaskbar.csproj` - Projektfil
-- `README.md` - Denna fil
+---
 
-## Systemkrav
+## 📖 How to Use
 
-- Windows 10 eller senare
-- .NET 6.0 Runtime eller senare
+### 1. The System Tray (Your Hub)
+- **Left-Click**: Opens the **Quick-Launch Menu**. Hover over a category and click a program to start it.
+- **Double-Click**: Transitions to the **Main Dashboard** for full management.
+- **Right-Click**: Opens **Settings**, where you can change language, toggle autostart, or reset data.
+
+### 2. Managing Programs
+- Use the **Add Program** button to select an `.exe` or `.lnk` (shortcut).
+- **Edit Name**: Keep your list clean by renaming shortcuts.
+- **Categories**: Create custom categories and move programs between them to stay organized.
+
+---
+
+## 🛠️ Technical Overview
+
+- **Framework**: .NET 8.0 (Windows Forms)
+- **Language**: C# 12
+- **Data Engine**: JSON-based storage (fast & lightweight)
+- **Iconography**: Custom programmatic GDI+ rendering
+- **API Integration**: Win32 API for advanced focus and window management
+
+---
+
+## 📜 License
+
+Distributed under the **MIT License**. See `LICENSE` for more information.
+
+---
+
+*Developed by **Robin Ayzit** - 2026*
