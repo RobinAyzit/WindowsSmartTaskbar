@@ -87,4 +87,17 @@ Contributions are welcome! Feel free to submit a Pull Request or open an Issue i
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Copyright © 2026 nRn World.
+## 👨‍💻 Author
+
+Created 2026 by **© nRn World**
+
+📧 [bynrnworld@gmail.com](mailto:bynrnworld@gmail.com)
+
+## 🙏 Support
+
+If you like this project, consider to:
+
+*   ⭐ Star the project on GitHub
+*   ☕ [Buy me a coffee](https://buymeacoffee.com/nrnworld)
+*   📢 Share with your friends
+
