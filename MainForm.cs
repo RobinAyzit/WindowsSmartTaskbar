@@ -18,9 +18,10 @@ namespace WindowsSmartTaskbar
         private List<ProgramItem> programs = new List<ProgramItem>();
         private List<Category> categories = new List<Category>();
         private string currentCategory = "All programs";
-        private static string ConfigFile => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "programs.json");
-        private static string CategoryFile => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "categories.json");
-        private static string SettingsFile => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
+        private static string AppDataFolder => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "WindowsSmartTaskbar");
+        private static string ConfigFile => Path.Combine(AppDataFolder, "programs.json");
+        private static string CategoryFile => Path.Combine(AppDataFolder, "categories.json");
+        private static string SettingsFile => Path.Combine(AppDataFolder, "settings.json");
         private const int MaxPrograms = 20;
         private const string DefaultCategory = "All programs";
         private NotifyIcon? notifyIcon;
@@ -246,6 +247,7 @@ namespace WindowsSmartTaskbar
 
         public MainForm()
         {
+            EnsureDataFolder();
             LoadSettings();
             InitializeComponent();
             LoadCategories();
@@ -255,6 +257,18 @@ namespace WindowsSmartTaskbar
             SetupNotifyIcon();
             this.WindowState = FormWindowState.Minimized;
             this.ShowInTaskbar = false;
+        }
+
+        private void EnsureDataFolder()
+        {
+            try
+            {
+                if (!Directory.Exists(AppDataFolder))
+                {
+                    Directory.CreateDirectory(AppDataFolder);
+                }
+            }
+            catch { }
         }
 
         private void InitializeComponent()
