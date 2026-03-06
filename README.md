@@ -40,14 +40,7 @@
 
 ---
 
-## � Screenshots
-
-![Main window](Screenshot/Screenshot%201.png)
-![Quick access menu](Screenshot/Screenshot%202.png)
-
----
-
-## �📥 Download & Installation
+## 📥 Download & Installation
 
 ### Option 1: Quick Start (Recommended)
 
