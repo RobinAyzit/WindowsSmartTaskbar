@@ -33,6 +33,7 @@ namespace WindowsSmartTaskbar
         // UI controls
         private Panel? programPanel;
         private Label? statusLabel;
+        private Label? copyrightLabel;
         private ComboBox? categoryComboBox;
         private Label? titleLabel;
         private Button? addButton;
@@ -131,6 +132,9 @@ namespace WindowsSmartTaskbar
                 ["theme"] = "Tema",
                 ["dark"] = "Mörkt",
                 ["light"] = "Ljust",
+                ["moveToCategory"] = "Flytta till kategori",
+                ["contextDelete"] = "Radera",
+                ["contextRename"] = "Redigera namn",
             },
             ["en"] = new Dictionary<string, string>
             {
@@ -182,6 +186,9 @@ namespace WindowsSmartTaskbar
                 ["theme"] = "Theme",
                 ["dark"] = "Dark",
                 ["light"] = "Light",
+                ["moveToCategory"] = "Move to category",
+                ["contextDelete"] = "Delete",
+                ["contextRename"] = "Rename",
             },
             ["tr"] = new Dictionary<string, string>
             {
@@ -233,6 +240,9 @@ namespace WindowsSmartTaskbar
                 ["theme"] = "Tema",
                 ["dark"] = "Karanlık",
                 ["light"] = "Aydınlık",
+                ["moveToCategory"] = "Kategoriye taşı",
+                ["contextDelete"] = "Sil",
+                ["contextRename"] = "Adını değiştir",
             }
         };
 
@@ -372,21 +382,41 @@ namespace WindowsSmartTaskbar
                 Padding = new Padding(0)
             };
 
-            // Statuslabel
+            // Statuslabel with copyright
+            var bottomPanel = new Panel
+            {
+                Dock = DockStyle.Bottom,
+    Height = 60
+            };
+
             statusLabel = new Label
             {
                 Text = string.Format(T("programCount"), 0, MaxPrograms),
-                Dock = DockStyle.Bottom,
-                Height = 25,
+                Dock = DockStyle.Left,
+                Width = 150,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font("Segoe UI", 9),
                 ForeColor = Color.Gray
             };
 
+            copyrightLabel = new Label
+            {
+                Text = "Created 2026 by © nRn World",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleRight,
+                Font = new Font("Segoe UI", 8),
+                ForeColor = Color.Gray,
+                Padding = new Padding(0, 0, 10, 0),
+                AutoSize = false
+            };
+
+            bottomPanel.Controls.Add(copyrightLabel);
+            bottomPanel.Controls.Add(statusLabel);
+
             // OBS: Ordning är viktig för WinForms docking
             // Lägg till i omvänd ordning: Bottom först, sedan Fill, sedan Top
             mainPanel.Controls.Add(programPanel);      // Fill - ska vara först
-            mainPanel.Controls.Add(statusLabel);        // Bottom
+            mainPanel.Controls.Add(bottomPanel);             // Bottom
             mainPanel.Controls.Add(buttonPanel);        // Top
             mainPanel.Controls.Add(categoryPanel);      // Top
             mainPanel.Controls.Add(titleLabel);         // Top
@@ -669,15 +699,19 @@ namespace WindowsSmartTaskbar
 
             if (categoryLabel != null) categoryLabel.ForeColor = textColor;
             if (statusLabel != null) statusLabel.ForeColor = secondaryTextColor;
+            if (copyrightLabel != null) copyrightLabel.ForeColor = secondaryTextColor;
 
             // Update nested controls if any
             RefreshProgramList();
         }
 
+        private bool autostartEnabled = true; // Standard värde
+
         private void LoadSettings()
         {
             try
             {
+                bool isFirstRun = false;
                 if (File.Exists(SettingsFile))
                 {
                     var json = File.ReadAllText(SettingsFile);
@@ -686,7 +720,24 @@ namespace WindowsSmartTaskbar
                     {
                         currentLanguage = settings.Language ?? "en";
                         currentTheme = settings.Theme ?? "dark";
+                        autostartEnabled = settings.Autostart ?? true; // Standard true
                     }
+                    else
+                    {
+                        isFirstRun = true;
+                    }
+                }
+                else
+                {
+                    isFirstRun = true;
+                }
+
+                // Om det är första körningen, spara standardinställningarna
+                if (isFirstRun)
+                {
+                    autostartEnabled = true;
+                    SaveSettings();
+                    SetAutostart(true);
                 }
             }
             catch { }
@@ -699,7 +750,8 @@ namespace WindowsSmartTaskbar
                 var settings = new AppSettings 
                 { 
                     Language = currentLanguage,
-                    Theme = currentTheme
+                    Theme = currentTheme,
+                    Autostart = autostartEnabled
                 };
                 var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(SettingsFile, json);
@@ -709,23 +761,16 @@ namespace WindowsSmartTaskbar
 
         private bool IsAutostartEnabled()
         {
-            try
-            {
-                using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", false))
-                {
-                    if (key == null) return false;
-                    var value = key.GetValue("WindowsSmartTaskbar")?.ToString();
-                    if (string.IsNullOrEmpty(value)) return false;
-                    
-                    var currentPath = Environment.ProcessPath ?? Application.ExecutablePath;
-                    return value == currentPath || value == $"\"{currentPath}\"";
-                }
-            }
-            catch { return false; }
+            // Returnera den sparade inställningen från AppSettings
+            return autostartEnabled;
         }
 
         private void SetAutostart(bool enable)
         {
+            // Uppdatera den sparade inställningen
+            autostartEnabled = enable;
+            SaveSettings();
+
             try
             {
                 using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
@@ -984,6 +1029,52 @@ namespace WindowsSmartTaskbar
             row.DragEnter += dragEnter;
             row.DragDrop += dragDrop;
 
+            // Right-click context menu
+            var contextMenu = new ContextMenuStrip();
+
+            // "Move to category" menu item with submenu
+            var moveToItem = new ToolStripMenuItem(T("moveToCategory"));
+            
+            // Add all available categories (except the current one)
+            foreach (var category in categories)
+            {
+                if (category.Name != program.Category)
+                {
+                    string displayName = category.Name == DefaultCategory ? T("allPrograms") : category.Name;
+                    var categoryItem = new ToolStripMenuItem(displayName);
+                    categoryItem.Click += (s, e) => 
+                    {
+                        program.Category = category.Name;
+                        SavePrograms();
+                        RefreshProgramList();
+                    };
+                    moveToItem.DropDownItems.Add(categoryItem);
+                }
+            }
+
+            contextMenu.Items.Add(moveToItem);
+            
+            // "Rename" menu item
+            var renameItem = new ToolStripMenuItem(T("contextRename"));
+            renameItem.Click += (s, e) => ShowRenameDialog(program);
+            contextMenu.Items.Add(renameItem);
+
+            // "Delete" menu item
+            var deleteItem = new ToolStripMenuItem(T("contextDelete"));
+            deleteItem.Click += (s, e) => 
+            {
+                programs.Remove(program);
+                SavePrograms();
+                RefreshProgramList();
+            };
+            contextMenu.Items.Add(deleteItem);
+
+            // Attach context menu to all controls in the row
+            row.ContextMenuStrip = contextMenu;
+            iconBox.ContextMenuStrip = contextMenu;
+            nameLabel.ContextMenuStrip = contextMenu;
+            pathLabel.ContextMenuStrip = contextMenu;
+
             return row;
         }
 
@@ -1018,6 +1109,39 @@ namespace WindowsSmartTaskbar
         {
             if (statusLabel != null)
                 statusLabel.Text = string.Format(T("programCount"), programs.Count, MaxPrograms);
+        }
+
+        private void ShowRenameDialog(ProgramItem program)
+        {
+            using (var inputDialog = new Form())
+            {
+                inputDialog.Text = T("editNameTitle");
+                inputDialog.Size = new Size(350, 150);
+                inputDialog.StartPosition = FormStartPosition.CenterParent;
+                inputDialog.FormBorderStyle = FormBorderStyle.FixedDialog;
+                inputDialog.MaximizeBox = false;
+                inputDialog.MinimizeBox = false;
+
+                var label = new Label { Text = T("newName"), Left = 20, Top = 20, Width = 100 };
+                var textBox = new TextBox { Text = program.Name, Left = 120, Top = 20, Width = 200 };
+                var okButton = new Button { Text = T("ok"), Left = 120, Top = 60, Width = 80, DialogResult = DialogResult.OK };
+                var cancelButton = new Button { Text = T("cancel"), Left = 210, Top = 60, Width = 80, DialogResult = DialogResult.Cancel };
+
+                inputDialog.Controls.AddRange(new Control[] { label, textBox, okButton, cancelButton });
+                inputDialog.AcceptButton = okButton;
+                inputDialog.CancelButton = cancelButton;
+
+                if (inputDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string newName = textBox.Text.Trim();
+                    if (!string.IsNullOrEmpty(newName))
+                    {
+                        program.Name = newName;
+                        RefreshProgramList();
+                        SavePrograms();
+                    }
+                }
+            }
         }
 
         // ========== Button Event Handlers ==========
@@ -1486,5 +1610,6 @@ namespace WindowsSmartTaskbar
     {
         public string? Language { get; set; }
         public string? Theme { get; set; }
+        public bool? Autostart { get; set; }
     }
 }
