@@ -24,7 +24,7 @@
 
 ### Option 1: Quick Start (Recommended)
 1.  Go to the [**Releases**](../../releases) page.
-2.  Download the latest `WindowsSmartTaskbar_Release.zip`.
+2.  Download the latest `WindowsSmartTaskbar.zip`.
 3.  Extract the ZIP file to a location of your choice (e.g., `C:\Apps\SmartTaskbar`).
 4.  Run `WindowsSmartTaskbar.exe`.
 
