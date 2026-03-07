@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace WindowsSmartTaskbar
 {
@@ -14,6 +15,9 @@ namespace WindowsSmartTaskbar
     {
         [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern bool DestroyIcon(IntPtr hIcon);
 
         private List<ProgramItem> programs = new List<ProgramItem>();
         private List<Category> categories = new List<Category>();
@@ -255,6 +259,11 @@ namespace WindowsSmartTaskbar
             return key;
         }
 
+        private static void LogDebug(string context, Exception ex)
+        {
+            Debug.WriteLine($"[{nameof(MainForm)}::{context}] {ex}");
+        }
+
         public MainForm()
         {
             EnsureDataFolder();
@@ -278,7 +287,10 @@ namespace WindowsSmartTaskbar
                     Directory.CreateDirectory(AppDataFolder);
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogDebug(nameof(EnsureDataFolder), ex);
+            }
         }
 
         private void InitializeComponent()
@@ -563,7 +575,8 @@ namespace WindowsSmartTaskbar
                     var progItem = new ToolStripMenuItem(prog.Name);
                     if (prog.Icon != null)
                     {
-                        try { progItem.Image = prog.Icon.ToBitmap(); } catch { }
+                        try { progItem.Image = prog.Icon.ToBitmap(); }
+                        catch (Exception ex) { LogDebug(nameof(BuildQuickLaunchMenu), ex); }
                     }
                     progItem.Click += (s, e) => prog.Start();
                     catItem.DropDownItems.Add(progItem);
@@ -624,7 +637,18 @@ namespace WindowsSmartTaskbar
                         g.FillEllipse(Brushes.White, centerX + 40, centerY + 35, 20, 20);
                     }
                 }
-                return Icon.FromHandle(bmp.GetHicon());
+                IntPtr hIcon = bmp.GetHicon();
+                try
+                {
+                    using (var icon = Icon.FromHandle(hIcon))
+                    {
+                        return (Icon)icon.Clone();
+                    }
+                }
+                finally
+                {
+                    DestroyIcon(hIcon);
+                }
             }
         }
 
@@ -740,7 +764,10 @@ namespace WindowsSmartTaskbar
                     SetAutostart(true);
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogDebug(nameof(LoadSettings), ex);
+            }
         }
 
         private void SaveSettings()
@@ -756,7 +783,10 @@ namespace WindowsSmartTaskbar
                 var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(SettingsFile, json);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogDebug(nameof(SaveSettings), ex);
+            }
         }
 
         private bool IsAutostartEnabled()
@@ -867,7 +897,10 @@ namespace WindowsSmartTaskbar
                 if (program.Icon != null)
                     iconBox.Image = program.Icon.ToBitmap();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                LogDebug(nameof(CreateProgramRow), ex);
+            }
 
             // Program name
             var nameLabel = new Label
@@ -902,15 +935,18 @@ namespace WindowsSmartTaskbar
             Action<object?, MouseEventArgs> clickHandler = (s, args) =>
             {
                 int idx = (int)row.Tag;
+                var rowColor = currentTheme == "dark" ? Color.FromArgb(45, 45, 45) : Color.White;
                 if (Control.ModifierKeys.HasFlag(Keys.Control))
                 {
                     // Toggle selection
                     if (selectedIndices.Contains(idx))
                     {
                         selectedIndices.Remove(idx);
-                        row.BackColor = Color.White;
-                        nameLabel.BackColor = Color.White;
-                        pathLabel.BackColor = Color.White;
+                        row.BackColor = rowColor;
+                        nameLabel.BackColor = rowColor;
+                        pathLabel.BackColor = rowColor;
+                        nameLabel.ForeColor = currentTheme == "dark" ? Color.White : Color.FromArgb(30, 30, 30);
+                        pathLabel.ForeColor = currentTheme == "dark" ? Color.FromArgb(180, 180, 180) : Color.Gray;
                     }
                     else
                     {
@@ -938,7 +974,7 @@ namespace WindowsSmartTaskbar
                 // Double-click: start program
                 if (args is MouseEventArgs me && me.Clicks >= 2)
                 {
-                    var filtered = currentCategory == "Alla program"
+                    var filtered = currentCategory == DefaultCategory
                         ? programs.ToList()
                         : programs.Where(p => p.Category == currentCategory).ToList();
                     if (idx < filtered.Count)
@@ -963,7 +999,11 @@ namespace WindowsSmartTaskbar
                 ctrl.MouseEnter += (s, e) =>
                 {
                     if (!selectedIndices.Contains((int)row.Tag))
-                        row.BackColor = Color.FromArgb(235, 240, 255);
+                    {
+                        row.BackColor = currentTheme == "dark"
+                            ? Color.FromArgb(55, 55, 65)
+                            : Color.FromArgb(235, 240, 255);
+                    }
                 };
                 ctrl.MouseLeave += (s, e) =>
                 {
@@ -1189,7 +1229,7 @@ namespace WindowsSmartTaskbar
             }
 
             int idx = selectedIndices.First();
-            var filtered = currentCategory == "Alla program"
+            var filtered = currentCategory == DefaultCategory
                 ? programs.ToList()
                 : programs.Where(p => p.Category == currentCategory).ToList();
             if (idx >= filtered.Count) return;
@@ -1273,7 +1313,7 @@ namespace WindowsSmartTaskbar
                 return;
             }
 
-            var filtered = currentCategory == "Alla program"
+            var filtered = currentCategory == DefaultCategory
                 ? programs.ToList()
                 : programs.Where(p => p.Category == currentCategory).ToList();
 

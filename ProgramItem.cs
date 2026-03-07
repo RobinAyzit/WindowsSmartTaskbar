@@ -1,8 +1,9 @@
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace WindowsSmartTaskbar
 {
@@ -44,9 +45,9 @@ namespace WindowsSmartTaskbar
                         Icon = Icon.ExtractAssociatedIcon(targetPath);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // Använd standardikon om extrahering misslyckas
+                Debug.WriteLine($"[{nameof(ProgramItem)}::{nameof(LoadIcon)}] {ex}");
             }
         }
 
@@ -54,83 +55,72 @@ namespace WindowsSmartTaskbar
         {
             try
             {
-                // Använd Shell API för att läsa genvägen
-                return ReadShortcutTarget(shortcutPath);
+                string? target = ReadShortcutTarget(shortcutPath);
+                return string.IsNullOrWhiteSpace(target) ? shortcutPath : target;
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.WriteLine($"[{nameof(ProgramItem)}::{nameof(GetShortcutTarget)}] {ex}");
                 return shortcutPath;
             }
         }
 
-        private string ReadShortcutTarget(string shortcutPath)
+        private string? ReadShortcutTarget(string shortcutPath)
         {
+            Type? shellType = Type.GetTypeFromProgID("WScript.Shell");
+            if (shellType == null)
+            {
+                return null;
+            }
+
+            object? shell = null;
+            object? shortcut = null;
             try
             {
-                using (var fileStream = new FileStream(shortcutPath, FileMode.Open, FileAccess.Read))
-                using (var reader = new BinaryReader(fileStream))
+                shell = Activator.CreateInstance(shellType);
+                if (shell == null)
                 {
-                    // Hoppa till header
-                    reader.ReadUInt32(); // Header size
-                    reader.ReadUInt16(); // Link CLSID
-                    
-                    // Läs flags
-                    reader.BaseStream.Seek(0x14, SeekOrigin.Begin);
-                    var flags = reader.ReadUInt32();
-                    
-                    var position = 0x4C; // Start position after header
-                    
-                    // Hoppa över LinkTargetIDList om det finns
-                    if ((flags & 0x01) != 0)
-                    {
-                        reader.BaseStream.Seek(position, SeekOrigin.Begin);
-                        var idListSize = reader.ReadUInt16();
-                        position += 2 + idListSize;
-                    }
-                    
-                    // Läs LinkInfo om det finns
-                    if ((flags & 0x02) != 0)
-                    {
-                        reader.BaseStream.Seek(position, SeekOrigin.Begin);
-                        var linkInfoSize = reader.ReadUInt32();
-                        var linkInfoStart = position + 4;
-                        
-                        // Hitta path offset
-                        reader.BaseStream.Seek(linkInfoStart + 0x10, SeekOrigin.Begin);
-                        var pathOffset = reader.ReadUInt32();
-                        
-                        // Läs sökvägen
-                        reader.BaseStream.Seek(linkInfoStart + pathOffset, SeekOrigin.Begin);
-                        var pathBytes = reader.ReadBytes(260);
-                        var path = Encoding.Default.GetString(pathBytes).TrimEnd('\0');
-                        
-                        return path;
-                    }
+                    return null;
                 }
+
+                shortcut = shellType.InvokeMember(
+                    "CreateShortcut",
+                    BindingFlags.InvokeMethod,
+                    null,
+                    shell,
+                    new object[] { shortcutPath });
+
+                if (shortcut == null)
+                {
+                    return null;
+                }
+
+                string? targetPath = shortcut.GetType().InvokeMember(
+                    "TargetPath",
+                    BindingFlags.GetProperty,
+                    null,
+                    shortcut,
+                    null) as string;
+
+                return string.IsNullOrWhiteSpace(targetPath) ? null : targetPath;
             }
-            catch
+            catch (Exception ex)
             {
-                // Fallback: försök att hitta sökvägen med enklare metod
-                try
+                Debug.WriteLine($"[{nameof(ProgramItem)}::{nameof(ReadShortcutTarget)}] {ex}");
+                return null;
+            }
+            finally
+            {
+                if (shortcut != null && Marshal.IsComObject(shortcut))
                 {
-                    var content = File.ReadAllText(shortcutPath);
-                    // Försök att hitta en sökväg i innehållet
-                    var lines = content.Split('\0');
-                    foreach (var line in lines)
-                    {
-                        if (line.Length > 3 && line.Contains(":\\") && line.EndsWith(".exe"))
-                        {
-                            return line;
-                        }
-                    }
+                    Marshal.FinalReleaseComObject(shortcut);
                 }
-                catch
+
+                if (shell != null && Marshal.IsComObject(shell))
                 {
-                    // Om allt misslyckas
+                    Marshal.FinalReleaseComObject(shell);
                 }
             }
-            
-            return shortcutPath;
         }
 
         public void Start()
@@ -154,9 +144,9 @@ namespace WindowsSmartTaskbar
                         System.Diagnostics.Process.Start(startInfo);
                         return;
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        // Om det misslyckas, försök att hitta målfilen
+                        Debug.WriteLine($"[{nameof(ProgramItem)}::{nameof(Start)}] Failed launching shortcut directly: {ex}");
                         targetPath = GetShortcutTarget(FilePath);
                     }
                 }
@@ -164,28 +154,13 @@ namespace WindowsSmartTaskbar
                 // Försök att starta programmet
                 if (!string.IsNullOrEmpty(targetPath))
                 {
-                    // Om filen inte finns, försök med shell execute
-                    if (!File.Exists(targetPath))
+                    var startInfo = new System.Diagnostics.ProcessStartInfo
                     {
-                        var startInfo = new System.Diagnostics.ProcessStartInfo
-                        {
-                            FileName = targetPath,
-                            Arguments = targetArgs,
-                            UseShellExecute = true
-                        };
-                        System.Diagnostics.Process.Start(startInfo);
-                    }
-                    else
-                    {
-                        // Filen finns, starta normalt
-                        var startInfo = new System.Diagnostics.ProcessStartInfo
-                        {
-                            FileName = targetPath,
-                            Arguments = targetArgs,
-                            UseShellExecute = true
-                        };
-                        System.Diagnostics.Process.Start(startInfo);
-                    }
+                        FileName = targetPath,
+                        Arguments = targetArgs,
+                        UseShellExecute = true
+                    };
+                    System.Diagnostics.Process.Start(startInfo);
                 }
                 else
                 {
