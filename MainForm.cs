@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -90,32 +90,32 @@ namespace WindowsSmartTaskbar
             {
                 ["title"] = "WindowsSmartTaskbar",
                 ["category"] = "Kategori:",
-                ["addProgram"] = "Lägg till program",
+                ["addProgram"] = "LÃ¤gg till program",
                 ["remove"] = "Ta bort",
                 ["editName"] = "Redigera namn",
-                ["addCategory"] = "Lägg till kategori",
+                ["addCategory"] = "LÃ¤gg till kategori",
                 ["removeCategory"] = "Ta bort kategori",
                 ["allPrograms"] = "Alla program",
                 ["showPrograms"] = "Visa program",
                 ["exit"] = "Avsluta",
                 ["startWithWindows"] = "Starta med Windows",
-                ["settings"] = "Inställningar",
-                ["language"] = "Språk",
+                ["settings"] = "InstÃ¤llningar",
+                ["language"] = "SprÃ¥k",
                 ["resetAll"] = "Radera allt",
-                ["resetConfirm"] = "Är du säker på att du vill radera alla program och kategorier?",
-                ["resetTitle"] = "Bekräfta radering",
+                ["resetConfirm"] = "Ã„r du sÃ¤ker pÃ¥ att du vill radera alla program och kategorier?",
+                ["resetTitle"] = "BekrÃ¤fta radering",
                 ["resetDone"] = "Alla program och kategorier har raderats.",
-                ["limitReached"] = "Du kan bara lägga till max {0} program.",
-                ["selectFile"] = "Välj ett program eller genväg att lägga till",
-                ["fileFilter"] = "Program och genvägar (*.exe;*.lnk)|*.exe;*.lnk|Programfiler (*.exe)|*.exe|Genvägar (*.lnk)|*.lnk|Alla filer (*.*)|*.*",
+                ["limitReached"] = "Du kan bara lÃ¤gga till max {0} program.",
+                ["selectFile"] = "VÃ¤lj ett program eller genvÃ¤g att lÃ¤gga till",
+                ["fileFilter"] = "Program och genvÃ¤gar (*.exe;*.lnk)|*.exe;*.lnk|Programfiler (*.exe)|*.exe|GenvÃ¤gar (*.lnk)|*.lnk|Alla filer (*.*)|*.*",
                 ["noSelection"] = "Inget valt",
-                ["selectProgramRemove"] = "Välj minst ett program att ta bort.",
-                ["selectProgramEdit"] = "Välj ett program att redigera.",
+                ["selectProgramRemove"] = "VÃ¤lj minst ett program att ta bort.",
+                ["selectProgramEdit"] = "VÃ¤lj ett program att redigera.",
                 ["editNameTitle"] = "Redigera programnamn",
                 ["newName"] = "Nytt namn:",
                 ["ok"] = "OK",
                 ["cancel"] = "Avbryt",
-                ["addCategoryTitle"] = "Lägg till kategori",
+                ["addCategoryTitle"] = "LÃ¤gg till kategori",
                 ["categoryName"] = "Kategorinamn:",
                 ["categoryAdded"] = "Kategorin '{0}' har lagts till!",
                 ["categoryExists"] = "Kategorin finns redan.",
@@ -127,14 +127,14 @@ namespace WindowsSmartTaskbar
                 ["couldNotLoad"] = "Kunde inte ladda: {0}",
                 ["couldNotSave"] = "Kunde inte spara: {0}",
                 ["couldNotStart"] = "Kunde inte starta: {0}",
-                ["selectCategoryRemove"] = "Välj en kategori att ta bort.",
+                ["selectCategoryRemove"] = "VÃ¤lj en kategori att ta bort.",
                 ["editCategory"] = "Redigera kategori",
                 ["editCategoryTitle"] = "Redigera kategorinamn",
-                ["selectCategoryEdit"] = "Välj en kategori att redigera.",
+                ["selectCategoryEdit"] = "VÃ¤lj en kategori att redigera.",
                 ["cannotEditDefault"] = "Kan inte redigera standardkategorin.",
-                ["categoryRenamed"] = "Kategorin '{0}' har döpts om till '{1}'!",
+                ["categoryRenamed"] = "Kategorin '{0}' har dÃ¶pts om till '{1}'!",
                 ["theme"] = "Tema",
-                ["dark"] = "Mörkt",
+                ["dark"] = "MÃ¶rkt",
                 ["light"] = "Ljust",
                 ["moveToCategory"] = "Flytta till kategori",
                 ["contextDelete"] = "Radera",
@@ -199,54 +199,54 @@ namespace WindowsSmartTaskbar
                 ["title"] = "WindowsSmartTaskbar",
                 ["category"] = "Kategori:",
                 ["addProgram"] = "Program ekle",
-                ["remove"] = "Kaldır",
-                ["editName"] = "Adı düzenle",
+                ["remove"] = "KaldÄ±r",
+                ["editName"] = "AdÄ± dÃ¼zenle",
                 ["addCategory"] = "Kategori ekle",
-                ["removeCategory"] = "Kategoriyi kaldır",
-                ["allPrograms"] = "Tüm programlar",
-                ["showPrograms"] = "Programları göster",
-                ["exit"] = "Çıkış",
-                ["startWithWindows"] = "Windows ile başlat",
+                ["removeCategory"] = "Kategoriyi kaldÄ±r",
+                ["allPrograms"] = "TÃ¼m programlar",
+                ["showPrograms"] = "ProgramlarÄ± gÃ¶ster",
+                ["exit"] = "Ã‡Ä±kÄ±ÅŸ",
+                ["startWithWindows"] = "Windows ile baÅŸlat",
                 ["settings"] = "Ayarlar",
                 ["language"] = "Dil",
-                ["resetAll"] = "Tümünü sıfırla",
-                ["resetConfirm"] = "Tüm programları ve kategorileri silmek istediğinizden emin misiniz?",
+                ["resetAll"] = "TÃ¼mÃ¼nÃ¼ sÄ±fÄ±rla",
+                ["resetConfirm"] = "TÃ¼m programlarÄ± ve kategorileri silmek istediÄŸinizden emin misiniz?",
                 ["resetTitle"] = "Silmeyi onayla",
-                ["resetDone"] = "Tüm programlar ve kategoriler silindi.",
+                ["resetDone"] = "TÃ¼m programlar ve kategoriler silindi.",
                 ["limitReached"] = "En fazla {0} program ekleyebilirsiniz.",
-                ["selectFile"] = "Eklenecek bir program veya kısayol seçin",
-                ["fileFilter"] = "Programlar ve kısayollar (*.exe;*.lnk)|*.exe;*.lnk|Program dosyaları (*.exe)|*.exe|Kısayollar (*.lnk)|*.lnk|Tüm dosyalar (*.*)|*.*",
-                ["noSelection"] = "Seçim yok",
-                ["selectProgramRemove"] = "Kaldırmak için en az bir program seçin.",
-                ["selectProgramEdit"] = "Düzenlemek için bir program seçin.",
-                ["editNameTitle"] = "Program adını düzenle",
+                ["selectFile"] = "Eklenecek bir program veya kÄ±sayol seÃ§in",
+                ["fileFilter"] = "Programlar ve kÄ±sayollar (*.exe;*.lnk)|*.exe;*.lnk|Program dosyalarÄ± (*.exe)|*.exe|KÄ±sayollar (*.lnk)|*.lnk|TÃ¼m dosyalar (*.*)|*.*",
+                ["noSelection"] = "SeÃ§im yok",
+                ["selectProgramRemove"] = "KaldÄ±rmak iÃ§in en az bir program seÃ§in.",
+                ["selectProgramEdit"] = "DÃ¼zenlemek iÃ§in bir program seÃ§in.",
+                ["editNameTitle"] = "Program adÄ±nÄ± dÃ¼zenle",
                 ["newName"] = "Yeni ad:",
                 ["ok"] = "Tamam",
-                ["cancel"] = "İptal",
+                ["cancel"] = "Ä°ptal",
                 ["addCategoryTitle"] = "Kategori ekle",
-                ["categoryName"] = "Kategori adı:",
+                ["categoryName"] = "Kategori adÄ±:",
                 ["categoryAdded"] = "'{0}' kategorisi eklendi!",
                 ["categoryExists"] = "Kategori zaten mevcut.",
-                ["categoryRemoved"] = "'{0}' kategorisi kaldırıldı!",
-                ["cannotRemoveDefault"] = "Varsayılan kategori kaldırılamaz.",
-                ["programsInCategory"] = "'{1}' kategorisinde {0} program var.\n\nBunları varsayılan kategoriye taşımak ister misiniz?",
+                ["categoryRemoved"] = "'{0}' kategorisi kaldÄ±rÄ±ldÄ±!",
+                ["cannotRemoveDefault"] = "VarsayÄ±lan kategori kaldÄ±rÄ±lamaz.",
+                ["programsInCategory"] = "'{1}' kategorisinde {0} program var.\n\nBunlarÄ± varsayÄ±lan kategoriye taÅŸÄ±mak ister misiniz?",
                 ["error"] = "Hata",
                 ["programCount"] = "Program: {0}/{1}",
-                ["couldNotLoad"] = "Yüklenemedi: {0}",
+                ["couldNotLoad"] = "YÃ¼klenemedi: {0}",
                 ["couldNotSave"] = "Kaydedilemedi: {0}",
-                ["couldNotStart"] = "Başlatılamadı: {0}",
-                ["selectCategoryRemove"] = "Kaldırmak için bir kategori seçin.",
-                ["editCategory"] = "Kategoriyi düzenle",
-                ["editCategoryTitle"] = "Kategori adını düzenle",
-                ["selectCategoryEdit"] = "Düzenlemek için bir kategori seçin.",
-                ["cannotEditDefault"] = "Varsayılan kategori düzenlenemez.",
-                ["categoryRenamed"] = "'{0}' kategorisinin adı '{1}' olarak değiştirildi!",
+                ["couldNotStart"] = "BaÅŸlatÄ±lamadÄ±: {0}",
+                ["selectCategoryRemove"] = "KaldÄ±rmak iÃ§in bir kategori seÃ§in.",
+                ["editCategory"] = "Kategoriyi dÃ¼zenle",
+                ["editCategoryTitle"] = "Kategori adÄ±nÄ± dÃ¼zenle",
+                ["selectCategoryEdit"] = "DÃ¼zenlemek iÃ§in bir kategori seÃ§in.",
+                ["cannotEditDefault"] = "VarsayÄ±lan kategori dÃ¼zenlenemez.",
+                ["categoryRenamed"] = "'{0}' kategorisinin adÄ± '{1}' olarak deÄŸiÅŸtirildi!",
                 ["theme"] = "Tema",
-                ["dark"] = "Karanlık",
-                ["light"] = "Aydınlık",
-                ["moveToCategory"] = "Kategoriye taşı",
+                ["dark"] = "KaranlÄ±k",
+                ["light"] = "AydÄ±nlÄ±k",
+                ["moveToCategory"] = "Kategoriye taÅŸÄ±",
                 ["contextDelete"] = "Sil",
-                ["contextRename"] = "Adını değiştir",
+                ["contextRename"] = "AdÄ±nÄ± deÄŸiÅŸtir",
             }
         };
 
@@ -320,7 +320,7 @@ namespace WindowsSmartTaskbar
                 ForeColor = Color.FromArgb(0, 120, 215)
             };
 
-            // Kategoriväljare
+            // KategorivÃ¤ljare
             var categoryPanel = new FlowLayoutPanel
             {
                 Dock = DockStyle.Top,
@@ -384,7 +384,7 @@ namespace WindowsSmartTaskbar
             buttonPanel.Controls.Add(removeCategoryButton);
             buttonPanel.Controls.Add(editCategoryButton);
 
-            // Programpanel (scrollbar panel istället för ListBox)
+            // Programpanel (scrollbar panel istÃ¤llet fÃ¶r ListBox)
             programPanel = new Panel
             {
                 Dock = DockStyle.Fill,
@@ -413,7 +413,7 @@ namespace WindowsSmartTaskbar
 
             copyrightLabel = new Label
             {
-                Text = "Created 2026 by © nRn World",
+                Text = "Created 2026 by Â© nRn World",
                 Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleRight,
                 Font = new Font("Segoe UI", 8),
@@ -425,9 +425,9 @@ namespace WindowsSmartTaskbar
             bottomPanel.Controls.Add(copyrightLabel);
             bottomPanel.Controls.Add(statusLabel);
 
-            // OBS: Ordning är viktig för WinForms docking
-            // Lägg till i omvänd ordning: Bottom först, sedan Fill, sedan Top
-            mainPanel.Controls.Add(programPanel);      // Fill - ska vara först
+            // OBS: Ordning Ã¤r viktig fÃ¶r WinForms docking
+            // LÃ¤gg till i omvÃ¤nd ordning: Bottom fÃ¶rst, sedan Fill, sedan Top
+            mainPanel.Controls.Add(programPanel);      // Fill - ska vara fÃ¶rst
             mainPanel.Controls.Add(bottomPanel);             // Bottom
             mainPanel.Controls.Add(buttonPanel);        // Top
             mainPanel.Controls.Add(categoryPanel);      // Top
@@ -485,7 +485,7 @@ namespace WindowsSmartTaskbar
             var langMenu = new ToolStripMenuItem(T("language"));
             var svItem = new ToolStripMenuItem("Svenska") { Tag = "sv", Checked = currentLanguage == "sv" };
             var enItem = new ToolStripMenuItem("English") { Tag = "en", Checked = currentLanguage == "en" };
-            var trItem = new ToolStripMenuItem("Türkçe") { Tag = "tr", Checked = currentLanguage == "tr" };
+            var trItem = new ToolStripMenuItem("TÃ¼rkÃ§e") { Tag = "tr", Checked = currentLanguage == "tr" };
 
             svItem.Click += (s, e) => ChangeLanguage("sv");
             enItem.Click += (s, e) => ChangeLanguage("en");
@@ -605,7 +605,7 @@ namespace WindowsSmartTaskbar
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
                     g.Clear(Color.Transparent);
 
-                    // Bakgrund: Blå gradient cirkel
+                    // Bakgrund: BlÃ¥ gradient cirkel
                     Rectangle rect = new Rectangle(10, 10, size - 20, size - 20);
                     using (var path = new System.Drawing.Drawing2D.GraphicsPath())
                     {
@@ -729,7 +729,7 @@ namespace WindowsSmartTaskbar
             RefreshProgramList();
         }
 
-        private bool autostartEnabled = true; // Standard värde
+        private bool autostartEnabled = true; // Standard vÃ¤rde
 
         private void LoadSettings()
         {
@@ -756,13 +756,14 @@ namespace WindowsSmartTaskbar
                     isFirstRun = true;
                 }
 
-                // Om det är första körningen, spara standardinställningarna
+                // Om det Ã¤r fÃ¶rsta kÃ¶rningen, spara standardinstÃ¤llningarna
                 if (isFirstRun)
                 {
                     autostartEnabled = true;
                     SaveSettings();
-                    SetAutostart(true);
                 }
+
+                SyncAutostartState();
             }
             catch (Exception ex)
             {
@@ -791,8 +792,8 @@ namespace WindowsSmartTaskbar
 
         private bool IsAutostartEnabled()
         {
-            // Returnera den sparade inställningen från AppSettings
-            return autostartEnabled;
+            // Returnera den sparade instÃ¤llningen frÃ¥n AppSettings
+            return autostartEnabled && IsAutostartRegistered();
         }
 
         private void SetAutostart(bool enable)
@@ -803,24 +804,57 @@ namespace WindowsSmartTaskbar
 
             try
             {
-                using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
-                {
-                    if (key == null) return;
-                    if (enable)
-                    {
-                        var currentPath = Environment.ProcessPath ?? Application.ExecutablePath;
-                        key.SetValue("WindowsSmartTaskbar", $"\"{currentPath}\"");
-                    }
-                    else
-                    {
-                        key.DeleteValue("WindowsSmartTaskbar", false);
-                    }
-                }
+                ApplyAutostartToRegistry(enable);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(string.Format(T("couldNotSave"), ex.Message), T("error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void SyncAutostartState()
+        {
+            try
+            {
+                ApplyAutostartToRegistry(autostartEnabled);
+            }
+            catch (Exception ex)
+            {
+                LogDebug(nameof(SyncAutostartState), ex);
+            }
+        }
+
+        private bool IsAutostartRegistered()
+        {
+            using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", false))
+            {
+                var raw = key?.GetValue("WindowsSmartTaskbar") as string;
+                if (string.IsNullOrWhiteSpace(raw))
+                    return false;
+
+                return string.Equals(raw, BuildAutostartCommand(), StringComparison.OrdinalIgnoreCase);
+            }
+        }
+
+        private void ApplyAutostartToRegistry(bool enable)
+        {
+            using (var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
+            {
+                if (key == null) return;
+                if (enable)
+                {
+                    key.SetValue("WindowsSmartTaskbar", BuildAutostartCommand());
+                }
+                else
+                {
+                    key.DeleteValue("WindowsSmartTaskbar", false);
+                }
+            }
+        }
+
+        private string BuildAutostartCommand()
+        {
+            return $"\"{Application.ExecutablePath}\"";
         }
 
         private void ShowProgramList()
@@ -1653,3 +1687,9 @@ namespace WindowsSmartTaskbar
         public bool? Autostart { get; set; }
     }
 }
+
+
+
+
+
+
