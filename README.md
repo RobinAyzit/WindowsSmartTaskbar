@@ -14,7 +14,7 @@ This project is **NOT** licensed under MIT. It is licensed under the **nRn World
 * **Companies & Organizations:** You have no right to download or use this software in a professional environment without prior written consent.
 * **Monetization:** Any commercial use, sale, or redistribution for profit requires a paid license.
 
-**To purchase commercial rights, contact:** [bynrnworld@gmail.com](mailto:bynrnworld@gmail.com)
+**To purchase commercial rights, contact:** [bynrnworld@gmail.com](mailto:bynrnworld@gmail.com) or RobinAyzit@gmail.com
 
 ---
 
