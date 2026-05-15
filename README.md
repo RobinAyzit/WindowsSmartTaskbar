@@ -107,7 +107,7 @@ Copyright (c) 2026 WindowsSmartTaskbar
 
 ---
 
-👨‍💻 **Author**: **nRn World (Robin Ayzit)**  
+👨‍💻 **Author**: **nRn World**  
 📧 **Contact**: [bynrnworld@gmail.com](mailto:bynrnworld@gmail.com)  
 ⭐ **Support**: If you like this project, consider giving it a star on GitHub!
 
